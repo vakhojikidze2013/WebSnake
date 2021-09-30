@@ -8,7 +8,7 @@ using System.Web;
 /// </summary>
 public class BoardObject
 {
-    public BoardObject(double horizontalPosition, double verticalPosition)
+    public BoardObject(double horizontalPosition = 0.5, double verticalPosition = 0.5)
     {
         HorizontalPosition = horizontalPosition;
         VerticalPosition = verticalPosition;

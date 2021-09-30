@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,10 +8,16 @@ using System.Web;
 /// </summary>
 public class Game
 {
-    public Game()
+    public Game(string gameId = "0")
     {
-        //
-        // TODO: Add constructor logic here
-        //
+        GameId = gameId;
+        Board = new Board();
+        SnakeList = new List<Snake>();
     }
+
+    public string GameId { get; set; }
+
+    public Board Board { get; set; }
+
+    public List<Snake> SnakeList { get; set; }
 }

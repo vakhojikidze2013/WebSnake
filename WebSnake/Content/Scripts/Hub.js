@@ -1,5 +1,9 @@
 ﻿var hubContext = $.connection.hubGameController;
 
+hubContext.client.message = function (value) {
+    console.log(value);
+}
+
 $.connection.hub.start()
     .done(function () {
         console.log('Now connected, connection ID= ' + $.connection.hub.id);

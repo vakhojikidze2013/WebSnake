@@ -10,6 +10,11 @@ public class Board
 {
     public Board()
     {
-        
+        List<Coin> CoinList;
+    }
+
+    public void GenerateCoinList()
+    {
+
     }
 }

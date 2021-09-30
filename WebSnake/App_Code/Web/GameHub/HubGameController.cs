@@ -14,12 +14,80 @@ public class HubGameController : Hub
 
     public override Task OnConnected()
     {
+        var snakeId = _gameManager.IdChecker;
+        string currentConnectionId = Context.ConnectionId;
+        _gameManager.AddSnake(snakeId);
+        _playerManager.AddPlayer(_gameManager.IdChecker.ToString(), 
+                                 currentConnectionId, 
+                                 snakeId);
+        _gameManager.IdChecker++;
         return base.OnConnected();
     }
 
     public override Task OnDisconnected(bool stopCalled)
     {
+        string currentConnectionId = Context.ConnectionId;
+        int playerIndex = _playerManager.GetPlayerIndex(currentConnectionId);
+        int snakeId = _playerManager.PlayerList[playerIndex].SnakeId;
+        _gameManager.DeleteSnake(snakeId);
+        _playerManager.RemovePlayer(currentConnectionId);
         return base.OnDisconnected(stopCalled);
+    }
+
+    public async Task GetSnakeList()
+    {
+        await Task.Run(() => 
+        {
+            Clients.Caller.message(_gameManager.GlobalGame.SnakeList);
+        });
+    }
+
+    public async Task GetPlayerList() {
+        await Task.Run(() =>
+        {
+            Clients.Caller.message(_playerManager.PlayerList);
+        });
+    }
+
+    public async Task SetMoveDirection(string moveDirection)
+    {
+        await Task.Run(() =>
+        {
+            MoveDirection newSnakeMoveDirection;
+            if (moveDirection == "left")
+            {
+                newSnakeMoveDirection = MoveDirection.Left;
+            }
+            else if (moveDirection == "right")
+            {
+                newSnakeMoveDirection = MoveDirection.Right;
+            }
+            else if (moveDirection == "up")
+            {
+                newSnakeMoveDirection = MoveDirection.Up;
+            }
+            else if (moveDirection == "down")
+            {
+                newSnakeMoveDirection = MoveDirection.Down;
+            } 
+            else
+            {
+                return;
+            }
+            string currentConnectionId = Context.ConnectionId;
+            int playerIndex = _playerManager.GetPlayerIndex(currentConnectionId);
+            int snakeId = _playerManager.PlayerList[playerIndex].SnakeId;
+            var snakeIndex = _gameManager.GetSnakeIndex(snakeId);
+            _gameManager.ChangeSnakeMoveDirection(snakeIndex, newSnakeMoveDirection);
+        });
+    }
+
+    public async Task MoveSnakes()
+    {
+        await Task.Run(() =>
+        {
+            _gameManager.MovingSnakeMain();
+        });
     }
 
 }

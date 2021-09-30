@@ -8,18 +8,21 @@ using System.Web;
 /// </summary>
 public class Player
 {
-    public Player(string playerId, string gameId)
+    public Player(string gameId, string connectionId, int snakeId)
     {
-        Id = playerId;
+
         GameId = gameId;
         LastPing = -1;
+        ConnectionId = connectionId;
+        SnakeId = snakeId;
     }
 
-    public string Id { get; set; }
+    public int SnakeId { get; set; }
 
     public long LastPing { get; set; }
 
     public string GameId { get; set; }
 
     public string ConnectionId { get; set; }
+
 }
