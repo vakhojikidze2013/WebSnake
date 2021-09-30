@@ -109,6 +109,7 @@ public class GameManager
         }
     }
 
+
     public void MovingSnakeOther(int index)
     {
         var snakeList = GlobalGame.SnakeList;
