@@ -109,7 +109,7 @@ public class GameManager
         }
     }
 
-
+    //This part of the code makes the snakes' bodies move
     public void MovingSnakeOther(int index)
     {
         var snakeList = GlobalGame.SnakeList;
@@ -133,6 +133,17 @@ public class GameManager
                 pastCurrentSnakeCordinate.PastHorizontalPosition = pastCurrentSnakeCordinate.HorizontalPosition;
                 pastCurrentSnakeCordinate.PastVerticalPosition = pastCurrentSnakeCordinate.VerticalPosition;
 
+                if (rawIndex + 1 == currentSnakeObject.SnakeCordinateList.Count() - 1)
+                {
+                    var futureCurrentSnakeCordinate = currentSnakeObject.SnakeCordinateList[rawIndex + 1];
+                    futureCurrentSnakeCordinate.HorizontalPosition = currentSnakeCordinate.PastHorizontalPosition;
+                    futureCurrentSnakeCordinate.VerticalPosition = currentSnakeCordinate.PastVerticalPosition;
+                    futureCurrentSnakeCordinate.PastHorizontalPosition = futureCurrentSnakeCordinate.HorizontalPosition;
+                    futureCurrentSnakeCordinate.PastVerticalPosition = futureCurrentSnakeCordinate.VerticalPosition;
+                    currentSnakeCordinate.PastHorizontalPosition = currentSnakeCordinate.HorizontalPosition;
+                    currentSnakeCordinate.PastVerticalPosition = currentSnakeCordinate.VerticalPosition;
+                    break;
+                }
             }
         }
     }
