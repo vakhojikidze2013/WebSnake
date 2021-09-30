@@ -14,7 +14,7 @@ public class HubGameController : Hub
 
     public override Task OnConnected()
     {
-        var snakeId = _gameManager.IdChecker;
+        int snakeId = _gameManager.IdChecker;
         string currentConnectionId = Context.ConnectionId;
         _gameManager.AddSnake(snakeId);
         _playerManager.AddPlayer(_gameManager.IdChecker.ToString(), 
@@ -28,6 +28,7 @@ public class HubGameController : Hub
     {
         string currentConnectionId = Context.ConnectionId;
         int playerIndex = _playerManager.GetPlayerIndex(currentConnectionId);
+        
         int snakeId = _playerManager.PlayerList[playerIndex].SnakeId;
         _gameManager.DeleteSnake(snakeId);
         _playerManager.RemovePlayer(currentConnectionId);
@@ -54,6 +55,7 @@ public class HubGameController : Hub
         await Task.Run(() =>
         {
             MoveDirection newSnakeMoveDirection;
+
             if (moveDirection == "left")
             {
                 newSnakeMoveDirection = MoveDirection.Left;
@@ -74,10 +76,11 @@ public class HubGameController : Hub
             {
                 return;
             }
+
             string currentConnectionId = Context.ConnectionId;
             int playerIndex = _playerManager.GetPlayerIndex(currentConnectionId);
             int snakeId = _playerManager.PlayerList[playerIndex].SnakeId;
-            var snakeIndex = _gameManager.GetSnakeIndex(snakeId);
+            int snakeIndex = _gameManager.GetSnakeIndex(snakeId);
             _gameManager.ChangeSnakeMoveDirection(snakeIndex, newSnakeMoveDirection);
         });
     }
@@ -90,4 +93,12 @@ public class HubGameController : Hub
         });
     }
 
+    public async Task CheckSnakesPositions()
+    {
+        await Task.Run(() =>
+        {
+            _gameManager.CheckDangerObjects(0);
+
+        });
+    }
 }
