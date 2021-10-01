@@ -97,8 +97,17 @@ public class HubGameController : Hub
     {
         await Task.Run(() =>
         {
-            _gameManager.CheckDangerObjects(0);
+            _gameManager.CheckDanger(0);
 
+        });
+    }
+
+    public async Task RandomNumber()
+    {
+        await Task.Run(() =>
+        {
+            double randomNumber = _gameManager.GlobalGame.Board.GetRandomNumber(0.0, 1.0);
+            Clients.Caller.message(randomNumber);
         });
     }
 }

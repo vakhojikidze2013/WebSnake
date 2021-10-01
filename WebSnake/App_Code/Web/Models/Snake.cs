@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 /// <summary>
 /// Summary description for Snake
@@ -62,5 +63,57 @@ public class Snake : BoardObject
     {
         PastHorizontalPosition = HorizontalPosition;
         PastVerticalPosition = VerticalPosition;
+    }
+
+    public void AddSnakeNewStartPositions()
+    {
+        int lastIndex = SnakeCordinateList.Count;
+        double lastSnakeCordinateHorizontalValue = SnakeCordinateList[lastIndex].HorizontalPosition;
+        double lastSnakeCordinateVerticalValue = SnakeCordinateList[lastIndex].VerticalPosition;
+        double differenceHorizontal = Math.Round(SnakeCordinateList[lastIndex - 1].HorizontalPosition - SnakeCordinateList[lastIndex - 2].HorizontalPosition, 2);
+        double differenceVertical = Math.Round(SnakeCordinateList[lastIndex - 1].VerticalPosition - SnakeCordinateList[lastIndex - 2].VerticalPosition, 2);
+        if (differenceHorizontal < 0)
+        {
+            //right
+            SnakeCordinateList.Add(new SnakeCordinates
+            {
+                HorizontalPosition = lastSnakeCordinateHorizontalValue - SnakeMoveSpeed,
+                VerticalPosition = lastSnakeCordinateVerticalValue,
+                PastHorizontalPosition = lastSnakeCordinateHorizontalValue - SnakeMoveSpeed,
+                PastVerticalPosition = lastSnakeCordinateVerticalValue
+            });
+        } 
+        else if (differenceHorizontal > 0)
+        {
+            //left
+            SnakeCordinateList.Add(new SnakeCordinates
+            {
+                HorizontalPosition = lastSnakeCordinateHorizontalValue + SnakeMoveSpeed,
+                VerticalPosition = lastSnakeCordinateVerticalValue,
+                PastHorizontalPosition = lastSnakeCordinateHorizontalValue + SnakeMoveSpeed,
+                PastVerticalPosition = lastSnakeCordinateVerticalValue
+            });
+        } 
+        else if (differenceVertical < 0)
+        {
+
+            SnakeCordinateList.Add(new SnakeCordinates
+            {
+                HorizontalPosition = lastSnakeCordinateHorizontalValue,
+                VerticalPosition = lastSnakeCordinateVerticalValue - SnakeMoveSpeed,
+                PastHorizontalPosition = lastSnakeCordinateHorizontalValue,
+                PastVerticalPosition = lastSnakeCordinateVerticalValue - SnakeMoveSpeed
+            });
+        }
+        else if (differenceVertical > 0)
+        {
+            SnakeCordinateList.Add(new SnakeCordinates
+            {
+                HorizontalPosition = lastSnakeCordinateHorizontalValue,
+                VerticalPosition = lastSnakeCordinateVerticalValue + SnakeMoveSpeed,
+                PastHorizontalPosition = lastSnakeCordinateHorizontalValue,
+                PastVerticalPosition = lastSnakeCordinateVerticalValue + SnakeMoveSpeed
+            });
+        }
     }
 }
