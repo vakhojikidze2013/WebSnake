@@ -1,13 +1,24 @@
-﻿const canvas = document.getElementById("main-canvas");
-const ctx = canvas.getContext("2d");
+﻿
+//hubContext.server.setMoveDirection("left")
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-//Window resize event listenner
+document.addEventListener(KeyPress, function (events) {
+    if (events.key == KeyW) {
+        console.log(Up);
+        hubContext.server.setMoveDirection(Up);
+    }
 
-window.addEventListener('resize', function () {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    if (events.key == KeyS) {
+        console.log(Down);
+        hubContext.server.setMoveDirection(Down);
+    }
 
+    if (events.key == KeyA) {
+        console.log(Left);
+        hubContext.server.setMoveDirection(Left);
+    }
 
-});
+    if (events.key == KeyD) {
+        console.log(Right);
+        hubContext.server.setMoveDirection(Right);
+    }
+})

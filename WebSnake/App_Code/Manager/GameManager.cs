@@ -47,6 +47,8 @@ public class GameManager
     public void AddSnake(int snakeId)
     {
         GlobalGame.SnakeList.Add(new Snake(0.5, 0.5, snakeId));
+        //int snakeIndex = GetSnakeIndex(snakeId);
+        //GlobalGame.SnakeList[snakeIndex].SetSnakeStartPositions();
     }
 
     public void DeleteSnake(int snakeId)
@@ -59,30 +61,46 @@ public class GameManager
     }
 
     public int GetSnakeIndex(int snakeId)
-
     {
         return GlobalGame.SnakeList.FindIndex(a => a.SnakeId == snakeId);
     }
 
     public void ChangeSnakeMoveDirection(int id, MoveDirection newDirection)
     {
+        MoveDirection currentSnakeObjectMoveDirection = GlobalGame.SnakeList[id].SnakeMoveDirection;
+        if (newDirection == MoveDirection.Down && currentSnakeObjectMoveDirection == MoveDirection.Up)
+        {
+            return;
+        } 
+        else if (newDirection == MoveDirection.Up && currentSnakeObjectMoveDirection == MoveDirection.Down)
+        {
+            return;
+        }
+        else if (newDirection == MoveDirection.Right && currentSnakeObjectMoveDirection == MoveDirection.Left)
+        {
+            return;
+        }
+        else if (newDirection == MoveDirection.Left && currentSnakeObjectMoveDirection == MoveDirection.Right)
+        {
+            return;
+        }
         GlobalGame.SnakeList[id].SnakeMoveDirection = newDirection;
     }
 
     //This method makes head of snakes to move
     public void MovingSnakeMain()
     {
-        var snakeList = GlobalGame.SnakeList;
+        List<Snake> snakeList = GlobalGame.SnakeList;
 
         for (int index = 0; index < GlobalGame.SnakeList.Count(); index++)
         {
-            var currentSnakeObject = snakeList[index];
+            Snake currentSnakeObject = snakeList[index];
             if (currentSnakeObject.SnakeMoveDirection == MoveDirection.None)
             {
                 continue;
             }
 
-            if (currentSnakeObject.SnakeMoveDirection == MoveDirection.Up && currentSnakeObject.SnakeMoveDirection != MoveDirection.Down)
+            if (currentSnakeObject.SnakeMoveDirection == MoveDirection.Up)
             {
                 snakeList[index].VerticalPosition -= currentSnakeObject.SnakeMoveSpeed;
                 snakeList[index].VerticalPosition = Math.Round(snakeList[index].VerticalPosition, 2);
@@ -93,7 +111,7 @@ public class GameManager
                 }
                 MovingSnakeOther(index);
             }
-            else if (currentSnakeObject.SnakeMoveDirection == MoveDirection.Down && currentSnakeObject.SnakeMoveDirection != MoveDirection.Up)
+            else if (currentSnakeObject.SnakeMoveDirection == MoveDirection.Down)
             {
                 snakeList[index].VerticalPosition += currentSnakeObject.SnakeMoveSpeed;
                 snakeList[index].VerticalPosition = Math.Round(snakeList[index].VerticalPosition, 2);
@@ -104,7 +122,7 @@ public class GameManager
                 }
                 MovingSnakeOther(index);
             }
-            else if (currentSnakeObject.SnakeMoveDirection == MoveDirection.Right && currentSnakeObject.SnakeMoveDirection != MoveDirection.Left)
+            else if (currentSnakeObject.SnakeMoveDirection == MoveDirection.Right)
             {
                 snakeList[index].HorizontalPosition += currentSnakeObject.SnakeMoveSpeed;
                 snakeList[index].HorizontalPosition = Math.Round(snakeList[index].HorizontalPosition, 2);
@@ -115,7 +133,7 @@ public class GameManager
                 }
                 MovingSnakeOther(index);
             }
-            else if (currentSnakeObject.SnakeMoveDirection == MoveDirection.Left && currentSnakeObject.SnakeMoveDirection != MoveDirection.Right)
+            else if (currentSnakeObject.SnakeMoveDirection == MoveDirection.Left)
             {
                 snakeList[index].HorizontalPosition -= currentSnakeObject.SnakeMoveSpeed;
                 snakeList[index].HorizontalPosition = Math.Round(snakeList[index].HorizontalPosition, 2);
@@ -133,13 +151,13 @@ public class GameManager
     //This part of the code makes the snakes' bodies move
     private void MovingSnakeOther(int index)
     {
-        var snakeList = GlobalGame.SnakeList;
-        var currentSnakeObject = snakeList[index];
-        var snakePositionsLenght = currentSnakeObject.SnakeCordinateList.Count();
+        List<Snake> snakeList = GlobalGame.SnakeList;
+        Snake currentSnakeObject = snakeList[index];
+        int snakePositionsLenght = currentSnakeObject.SnakeCordinateList.Count();
 
         for (int rawIndex = 0; rawIndex < currentSnakeObject.SnakeCordinateList.Count(); rawIndex++)
         {
-            var currentSnakeCordinate = currentSnakeObject.SnakeCordinateList[rawIndex];
+            SnakeCordinates currentSnakeCordinate = currentSnakeObject.SnakeCordinateList[rawIndex];
             if (rawIndex == 0)
             {
                 currentSnakeCordinate.HorizontalPosition = currentSnakeObject.PastHorizontalPosition;
@@ -148,7 +166,7 @@ public class GameManager
             }
             else
             {
-                var pastCurrentSnakeCordinate = currentSnakeObject.SnakeCordinateList[rawIndex - 1];
+                SnakeCordinates pastCurrentSnakeCordinate = currentSnakeObject.SnakeCordinateList[rawIndex - 1];
                 currentSnakeCordinate.HorizontalPosition = pastCurrentSnakeCordinate.PastHorizontalPosition;
                 currentSnakeCordinate.VerticalPosition = pastCurrentSnakeCordinate.PastVerticalPosition;
                 pastCurrentSnakeCordinate.PastHorizontalPosition = pastCurrentSnakeCordinate.HorizontalPosition;
@@ -156,7 +174,7 @@ public class GameManager
 
                 if (rawIndex + 1 == currentSnakeObject.SnakeCordinateList.Count() - 1)
                 {
-                    var futureCurrentSnakeCordinate = currentSnakeObject.SnakeCordinateList[rawIndex + 1];
+                    SnakeCordinates futureCurrentSnakeCordinate = currentSnakeObject.SnakeCordinateList[rawIndex + 1];
                     futureCurrentSnakeCordinate.HorizontalPosition = currentSnakeCordinate.PastHorizontalPosition;
                     futureCurrentSnakeCordinate.VerticalPosition = currentSnakeCordinate.PastVerticalPosition;
                     futureCurrentSnakeCordinate.PastHorizontalPosition = futureCurrentSnakeCordinate.HorizontalPosition;
@@ -169,15 +187,9 @@ public class GameManager
         }
     }
 
-
-    public void CheckContactedOnMapObjects()
-    {
-
-    }
-
     public bool CheckDanger(int snakeIndex)
     {
-        var snakeList = GlobalGame.SnakeList;
+        List<Snake> snakeList = GlobalGame.SnakeList;
         SnakeCordinates checkingSnakeMainBodyPositions = new SnakeCordinates
         {
             HorizontalPosition = snakeList[snakeIndex].HorizontalPosition,
@@ -212,7 +224,7 @@ public class GameManager
 
     public void CheckCoins(int snakeIndex)
     {
-        var snakeList = GlobalGame.SnakeList;
+        List<Snake> snakeList = GlobalGame.SnakeList;
         SnakeCordinates snakeMainBodyPositions = new SnakeCordinates
         {
             HorizontalPosition = snakeList[snakeIndex].HorizontalPosition,

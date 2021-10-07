@@ -68,10 +68,10 @@ public class Snake : BoardObject
     public void AddSnakeNewStartPositions()
     {
         int lastIndex = SnakeCordinateList.Count;
-        double lastSnakeCordinateHorizontalValue = SnakeCordinateList[lastIndex].HorizontalPosition;
-        double lastSnakeCordinateVerticalValue = SnakeCordinateList[lastIndex].VerticalPosition;
-        double differenceHorizontal = Math.Round(SnakeCordinateList[lastIndex - 1].HorizontalPosition - SnakeCordinateList[lastIndex - 2].HorizontalPosition, 2);
-        double differenceVertical = Math.Round(SnakeCordinateList[lastIndex - 1].VerticalPosition - SnakeCordinateList[lastIndex - 2].VerticalPosition, 2);
+        double lastSnakeCordinateHorizontalValue = SnakeCordinateList[lastIndex - 1].HorizontalPosition;
+        double lastSnakeCordinateVerticalValue = SnakeCordinateList[lastIndex - 1].VerticalPosition;
+        double differenceHorizontal = Math.Round(SnakeCordinateList[lastIndex - 2].HorizontalPosition - SnakeCordinateList[lastIndex - 3].HorizontalPosition, 2);
+        double differenceVertical = Math.Round(SnakeCordinateList[lastIndex - 2].VerticalPosition - SnakeCordinateList[lastIndex - 3].VerticalPosition, 2);
         if (differenceHorizontal < 0)
         {
             //right

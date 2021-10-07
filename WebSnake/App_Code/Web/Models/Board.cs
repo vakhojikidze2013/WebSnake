@@ -10,23 +10,23 @@ public class Board
 {
     public Board()
     {
-        var HorizontalRandom = GetRandomNumber();
-        var VerticalRandom = GetRandomNumber();
-        CoinOnBoard = new Coin(HorizontalRandom, VerticalRandom);
+        CoinOnBoard = new Coin();
+        GenerateNewCoin();
     }
 
     public Coin CoinOnBoard { get; set; }
 
     public void GenerateNewCoin()
     {
-        var newHorizontalRandomValue = GetRandomNumber();
-        var newVerticalRandomValue = GetRandomNumber();
+        var randomValue = GetRandomNumber();
+        var randomHorizontal = Math.Floor(randomValue) / 100;
+        var randomVertical = Math.Round(randomValue - Math.Floor(randomValue), 2);
 
-        CoinOnBoard.HorizontalPosition = newHorizontalRandomValue;
-        CoinOnBoard.VerticalPosition = newVerticalRandomValue;
+        CoinOnBoard.HorizontalPosition = randomHorizontal;
+        CoinOnBoard.VerticalPosition = randomVertical;
     }
 
-    public double GetRandomNumber(double minimum = 0.0, double maximum = 1.0)
+    public double GetRandomNumber(double minimum = 10.0, double maximum = 99.0)
     {
         Random random = new Random();
         return Math.Round(random.NextDouble() * (maximum - minimum) + minimum, 2);

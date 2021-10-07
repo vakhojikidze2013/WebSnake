@@ -24,9 +24,9 @@ public class TimeScheduler
     {
         await Task.Run(() =>
         {
-            var hubContext = GlobalHost.ConnectionManager.GetHubContext("HubGameController");
+            IHubContext hubContext = GlobalHost.ConnectionManager.GetHubContext("HubGameController");
             _gameManager.MovingSnakeMain();
-            
+
             for (int index = 0; index < _gameManager.GlobalGame.SnakeList.Count(); index++)
             {
                 bool checkDanger = _gameManager.CheckDanger(index);
@@ -35,7 +35,8 @@ public class TimeScheduler
                     _gameManager.CheckCoins(index);
                 }
             }
-            hubContext.Clients.All.message(_gameManager);
+            hubContext.Clients.All.informationFromBack(ConvertClass.ConvertValue(_gameManager.GlobalGame.SnakeList),
+                                                                                 _gameManager.GlobalGame.Board.CoinOnBoard);
         });
     }
 }

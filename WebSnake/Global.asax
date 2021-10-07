@@ -13,7 +13,7 @@
 
         //Timer initialization. timer interval is set in miliseconds,
         System.Timers.Timer timeSchedulerTask = new System.Timers.Timer();
-        timeSchedulerTask.Interval = 100;
+        timeSchedulerTask.Interval = 50;
         timeSchedulerTask.Enabled = true;
         // Add handler for Elapsed event
         timeSchedulerTask.Elapsed += new System.Timers.ElapsedEventHandler(TimeSchedulerTaskElapsed);

@@ -14,7 +14,7 @@ public class HubGameController : Hub
 
     public override Task OnConnected()
     {
-        int snakeId = _gameManager.IdChecker;
+        var snakeId = _gameManager.IdChecker;
         string currentConnectionId = Context.ConnectionId;
         _gameManager.AddSnake(snakeId);
         _playerManager.AddPlayer(_gameManager.IdChecker.ToString(), 
@@ -39,7 +39,7 @@ public class HubGameController : Hub
     {
         await Task.Run(() => 
         {
-            Clients.Caller.message(_gameManager.GlobalGame.SnakeList);
+            Clients.Caller.message(ConvertClass.ConvertValue(_gameManager.GlobalGame.SnakeList));
         });
     }
 
@@ -81,7 +81,10 @@ public class HubGameController : Hub
             int playerIndex = _playerManager.GetPlayerIndex(currentConnectionId);
             int snakeId = _playerManager.PlayerList[playerIndex].SnakeId;
             int snakeIndex = _gameManager.GetSnakeIndex(snakeId);
-            _gameManager.ChangeSnakeMoveDirection(snakeIndex, newSnakeMoveDirection);
+            if (snakeIndex >= 0)
+            {
+                _gameManager.ChangeSnakeMoveDirection(snakeIndex, newSnakeMoveDirection);
+            }
         });
     }
 
@@ -93,21 +96,15 @@ public class HubGameController : Hub
         });
     }
 
-    public async Task CheckSnakesPositions()
-    {
-        await Task.Run(() =>
-        {
-            _gameManager.CheckDanger(0);
-
-        });
-    }
-
     public async Task RandomNumber()
     {
         await Task.Run(() =>
         {
-            double randomNumber = _gameManager.GlobalGame.Board.GetRandomNumber(0.0, 1.0);
+            double randomNumber = _gameManager.GlobalGame.Board.GetRandomNumber(10.0, 99.0);
+            var randomHorizontal = Math.Floor(randomNumber) / 100;
+            var randomVertical = Math.Round(randomNumber - Math.Floor(randomNumber), 2);
             Clients.Caller.message(randomNumber);
+            Clients.Caller.message(randomHorizontal, randomVertical);
         });
     }
 }

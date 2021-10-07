@@ -1,7 +1,15 @@
 ﻿var hubContext = $.connection.hubGameController;
+var snakeInformation = undefined;
+var coinsInfo = undefined;
 
-hubContext.client.message = function (value) {
-    console.log(value);
+hubContext.client.message = function (value1, value2) {
+    console.log(value1, value2);
+}
+
+hubContext.client.informationFromBack = function (snakesInfo, coinInfo) {
+    snakeInformation = snakesInfo;
+    coinsInfo = coinInfo;
+    console.log(coinsInfo);
 }
 
 $.connection.hub.start()
