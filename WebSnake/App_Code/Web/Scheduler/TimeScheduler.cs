@@ -32,7 +32,10 @@ public class TimeScheduler
                 bool checkDanger = _gameManager.CheckDanger(index);
                 if (checkDanger == false)
                 {
-                    _gameManager.CheckCoins(index);
+                   if (_gameManager.CheckCoins(index) == true)
+                    {
+                        _gameManager.GlobalGame.Board.GenerateNewCoin();
+                    }
                 }
             }
             hubContext.Clients.All.informationFromBack(ConvertClass.ConvertValue(_gameManager.GlobalGame.SnakeList),

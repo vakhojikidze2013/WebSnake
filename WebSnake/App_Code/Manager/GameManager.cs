@@ -43,12 +43,12 @@ public class GameManager
 
     public Game GlobalGame { get; set; }
 
-
     public void AddSnake(int snakeId)
     {
-        GlobalGame.SnakeList.Add(new Snake(0.5, 0.5, snakeId));
-        //int snakeIndex = GetSnakeIndex(snakeId);
-        //GlobalGame.SnakeList[snakeIndex].SetSnakeStartPositions();
+        double randomValue = RandomManager.GetRandomNumber();
+        double randomHorizontal = Math.Floor(randomValue) / 100;
+        double randomVertical = Math.Round(randomValue - Math.Floor(randomValue), 2);
+        GlobalGame.SnakeList.Add(new Snake(randomHorizontal, randomVertical, snakeId));
     }
 
     public void DeleteSnake(int snakeId)
@@ -222,7 +222,7 @@ public class GameManager
         return false;
     }
 
-    public void CheckCoins(int snakeIndex)
+    public bool CheckCoins(int snakeIndex)
     {
         List<Snake> snakeList = GlobalGame.SnakeList;
         SnakeCordinates snakeMainBodyPositions = new SnakeCordinates
@@ -237,6 +237,8 @@ public class GameManager
         {
             //Add snake length
             snakeList[snakeIndex].AddSnakeNewStartPositions();
+            return true;
         }
+        return false;
     }
 }

@@ -28,10 +28,12 @@ public class HubGameController : Hub
     {
         string currentConnectionId = Context.ConnectionId;
         int playerIndex = _playerManager.GetPlayerIndex(currentConnectionId);
-        
-        int snakeId = _playerManager.PlayerList[playerIndex].SnakeId;
-        _gameManager.DeleteSnake(snakeId);
-        _playerManager.RemovePlayer(currentConnectionId);
+        if (playerIndex >= 0)
+        {
+            int snakeId = _playerManager.PlayerList[playerIndex].SnakeId;
+            _gameManager.DeleteSnake(snakeId);
+            _playerManager.RemovePlayer(currentConnectionId);
+        }
         return base.OnDisconnected(stopCalled);
     }
 
@@ -43,7 +45,8 @@ public class HubGameController : Hub
         });
     }
 
-    public async Task GetPlayerList() {
+    public async Task GetPlayerList() 
+    {
         await Task.Run(() =>
         {
             Clients.Caller.message(_playerManager.PlayerList);
@@ -96,15 +99,8 @@ public class HubGameController : Hub
         });
     }
 
-    public async Task RandomNumber()
+    public int Tt()
     {
-        await Task.Run(() =>
-        {
-            double randomNumber = _gameManager.GlobalGame.Board.GetRandomNumber(10.0, 99.0);
-            var randomHorizontal = Math.Floor(randomNumber) / 100;
-            var randomVertical = Math.Round(randomNumber - Math.Floor(randomNumber), 2);
-            Clients.Caller.message(randomNumber);
-            Clients.Caller.message(randomHorizontal, randomVertical);
-        });
+        return 12;
     }
 }

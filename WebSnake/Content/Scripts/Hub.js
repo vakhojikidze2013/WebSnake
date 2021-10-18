@@ -9,14 +9,17 @@ hubContext.client.message = function (value1, value2) {
 hubContext.client.informationFromBack = function (snakesInfo, coinInfo) {
     snakeInformation = snakesInfo;
     coinsInfo = coinInfo;
-    console.log(coinsInfo);
 }
 
 $.connection.hub.start()
     .done(function () {
-        console.log('Now connected, connection ID= ' + $.connection.hub.id);
+        hubContext.server.tt().then(x => consoleTest(x));
     })
 
     .fail(function () {
         console.log('Could not Connect!');
     });
+
+function consoleTest(info) {
+    console.log(info);
+}

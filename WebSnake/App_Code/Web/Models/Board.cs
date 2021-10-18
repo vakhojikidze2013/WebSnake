@@ -18,17 +18,11 @@ public class Board
 
     public void GenerateNewCoin()
     {
-        var randomValue = GetRandomNumber();
-        var randomHorizontal = Math.Floor(randomValue) / 100;
-        var randomVertical = Math.Round(randomValue - Math.Floor(randomValue), 2);
+        double randomValue = RandomManager.GetRandomNumber();
+        double randomHorizontal = Math.Floor(randomValue) / 100;
+        double randomVertical = Math.Round(randomValue - Math.Floor(randomValue), 2);
 
         CoinOnBoard.HorizontalPosition = randomHorizontal;
         CoinOnBoard.VerticalPosition = randomVertical;
-    }
-
-    public double GetRandomNumber(double minimum = 10.0, double maximum = 99.0)
-    {
-        Random random = new Random();
-        return Math.Round(random.NextDouble() * (maximum - minimum) + minimum, 2);
     }
 }

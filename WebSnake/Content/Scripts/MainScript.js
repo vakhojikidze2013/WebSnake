@@ -1,7 +1,7 @@
 ﻿
 //hubContext.server.setMoveDirection("left")
 
-document.addEventListener(KeyPress, function (events) {
+document.addEventListener(KeyDown, function (events) {
     if (events.key == KeyW) {
         console.log(Up);
         hubContext.server.setMoveDirection(Up);

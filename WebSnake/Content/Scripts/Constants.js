@@ -10,3 +10,4 @@ const Right = "right";
 
 const Resize = "resize";
 const KeyPress = "keypress";
+const KeyDown = "keydown";

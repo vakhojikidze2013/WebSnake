@@ -10,12 +10,12 @@ public class Snake : BoardObject
     {
         SnakeLength = 3;
         Entity = NameOfEntity.Snake;
-        SnakeMoveDirection = MoveDirection.None;
+        SnakeMoveDirection = MoveDirection.Up;
         SnakeMoveSpeed = MoveSpeed.Slow;
         SnakeId = snakeId;
         SnakeCordinateList = new List<SnakeCordinates>();
         ReChangeSnakePastCordinates();
-        SetSnakeStartPositions();
+        SetSnakeStartPositions(horizontalPosition, verticalPosition);
     }
 
     public int SnakeLength { get; set; }
@@ -32,30 +32,30 @@ public class Snake : BoardObject
 
     public List<SnakeCordinates> SnakeCordinateList { get; set; }
 
-    public void SetSnakeStartPositions()
+    public void SetSnakeStartPositions(double mainHorizontalPosition, double mainVerticalPosition)
     {
         SnakeCordinateList.Add(new SnakeCordinates
         {
-            HorizontalPosition = 0.50,
-            VerticalPosition = 0.49,
-            PastHorizontalPosition = 0.50,
-            PastVerticalPosition = 0.49
+            HorizontalPosition = mainHorizontalPosition,
+            VerticalPosition = mainVerticalPosition - SnakeMoveSpeed,
+            PastHorizontalPosition = mainHorizontalPosition,
+            PastVerticalPosition = mainVerticalPosition - SnakeMoveSpeed
         });
 
         SnakeCordinateList.Add(new SnakeCordinates
         {
-            HorizontalPosition = 0.50,
-            VerticalPosition = 0.48,
-            PastHorizontalPosition = 0.50,
-            PastVerticalPosition = 0.48
+            HorizontalPosition = mainHorizontalPosition,
+            VerticalPosition = mainVerticalPosition - SnakeMoveSpeed * 2,
+            PastHorizontalPosition = mainHorizontalPosition,
+            PastVerticalPosition = mainVerticalPosition - SnakeMoveSpeed * 2
         });
 
         SnakeCordinateList.Add(new SnakeCordinates
         {
-            HorizontalPosition = 0.50,
-            VerticalPosition = 0.47,
-            PastHorizontalPosition = 0.50,
-            PastVerticalPosition = 0.47
+            HorizontalPosition = mainHorizontalPosition,
+            VerticalPosition = mainVerticalPosition - SnakeMoveSpeed * 3,
+            PastHorizontalPosition = mainHorizontalPosition,
+            PastVerticalPosition = mainVerticalPosition - SnakeMoveSpeed * 3
         });
     }
 
@@ -67,52 +67,49 @@ public class Snake : BoardObject
 
     public void AddSnakeNewStartPositions()
     {
-        int lastIndex = SnakeCordinateList.Count;
-        double lastSnakeCordinateHorizontalValue = SnakeCordinateList[lastIndex - 1].HorizontalPosition;
-        double lastSnakeCordinateVerticalValue = SnakeCordinateList[lastIndex - 1].VerticalPosition;
-        double differenceHorizontal = Math.Round(SnakeCordinateList[lastIndex - 2].HorizontalPosition - SnakeCordinateList[lastIndex - 3].HorizontalPosition, 2);
-        double differenceVertical = Math.Round(SnakeCordinateList[lastIndex - 2].VerticalPosition - SnakeCordinateList[lastIndex - 3].VerticalPosition, 2);
-        if (differenceHorizontal < 0)
+        int lastIndex = SnakeCordinateList.Count - 1;
+
+        if (Math.Round(SnakeCordinateList[lastIndex - 1].HorizontalPosition - SnakeCordinateList[lastIndex - 2].HorizontalPosition, 2) < 0)
         {
             //right
             SnakeCordinateList.Add(new SnakeCordinates
             {
-                HorizontalPosition = lastSnakeCordinateHorizontalValue - SnakeMoveSpeed,
-                VerticalPosition = lastSnakeCordinateVerticalValue,
-                PastHorizontalPosition = lastSnakeCordinateHorizontalValue - SnakeMoveSpeed,
-                PastVerticalPosition = lastSnakeCordinateVerticalValue
+                HorizontalPosition = SnakeCordinateList[lastIndex].HorizontalPosition - SnakeMoveSpeed,
+                VerticalPosition = SnakeCordinateList[lastIndex].VerticalPosition,
+                PastHorizontalPosition = SnakeCordinateList[lastIndex].HorizontalPosition - SnakeMoveSpeed,
+                PastVerticalPosition = SnakeCordinateList[lastIndex].VerticalPosition
             });
         } 
-        else if (differenceHorizontal > 0)
+        else if (Math.Round(SnakeCordinateList[lastIndex - 1].HorizontalPosition - SnakeCordinateList[lastIndex - 2].HorizontalPosition, 2) > 0)
         {
             //left
             SnakeCordinateList.Add(new SnakeCordinates
             {
-                HorizontalPosition = lastSnakeCordinateHorizontalValue + SnakeMoveSpeed,
-                VerticalPosition = lastSnakeCordinateVerticalValue,
-                PastHorizontalPosition = lastSnakeCordinateHorizontalValue + SnakeMoveSpeed,
-                PastVerticalPosition = lastSnakeCordinateVerticalValue
+                HorizontalPosition = SnakeCordinateList[lastIndex].HorizontalPosition + SnakeMoveSpeed,
+                VerticalPosition = SnakeCordinateList[lastIndex].VerticalPosition,
+                PastHorizontalPosition = SnakeCordinateList[lastIndex].HorizontalPosition + SnakeMoveSpeed,
+                PastVerticalPosition = SnakeCordinateList[lastIndex].VerticalPosition
             });
         } 
-        else if (differenceVertical < 0)
+        else if (Math.Round(SnakeCordinateList[lastIndex - 1].VerticalPosition - SnakeCordinateList[lastIndex - 2].VerticalPosition, 2) < 0)
         {
 
             SnakeCordinateList.Add(new SnakeCordinates
             {
-                HorizontalPosition = lastSnakeCordinateHorizontalValue,
-                VerticalPosition = lastSnakeCordinateVerticalValue - SnakeMoveSpeed,
-                PastHorizontalPosition = lastSnakeCordinateHorizontalValue,
-                PastVerticalPosition = lastSnakeCordinateVerticalValue - SnakeMoveSpeed
+                HorizontalPosition = SnakeCordinateList[lastIndex].HorizontalPosition,
+                VerticalPosition = SnakeCordinateList[lastIndex].VerticalPosition - SnakeMoveSpeed,
+                PastHorizontalPosition = SnakeCordinateList[lastIndex].HorizontalPosition,
+                PastVerticalPosition = SnakeCordinateList[lastIndex].VerticalPosition - SnakeMoveSpeed
             });
         }
-        else if (differenceVertical > 0)
+        else if (Math.Round(SnakeCordinateList[lastIndex - 1].VerticalPosition - SnakeCordinateList[lastIndex - 2].VerticalPosition, 2) > 0)
         {
             SnakeCordinateList.Add(new SnakeCordinates
             {
-                HorizontalPosition = lastSnakeCordinateHorizontalValue,
-                VerticalPosition = lastSnakeCordinateVerticalValue + SnakeMoveSpeed,
-                PastHorizontalPosition = lastSnakeCordinateHorizontalValue,
-                PastVerticalPosition = lastSnakeCordinateVerticalValue + SnakeMoveSpeed
+                HorizontalPosition = SnakeCordinateList[lastIndex].HorizontalPosition,
+                VerticalPosition = SnakeCordinateList[lastIndex].VerticalPosition + SnakeMoveSpeed,
+                PastHorizontalPosition = SnakeCordinateList[lastIndex].HorizontalPosition,
+                PastVerticalPosition = SnakeCordinateList[lastIndex].VerticalPosition + SnakeMoveSpeed
             });
         }
     }

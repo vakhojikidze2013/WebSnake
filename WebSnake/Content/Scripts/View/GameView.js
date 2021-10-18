@@ -6,7 +6,7 @@ canvas.height = window.innerHeight;
 
 var boardObjectSize = {
     x: window.innerHeight / 35,
-    y: window.innerHeight / 35
+    y: window.innerWidth / 35
 }
 
 window.addEventListener(Resize, function () {
@@ -33,21 +33,27 @@ function animate() {
             var currentSnakeXcordinate = currentSnakeObject.HorizontalPosition;
             var currentSnakeYcordinate = currentSnakeObject.VerticalPosition;
             ctx.fillStyle = "#FF0000";
-            ctx.fillRect(currentSnakeXcordinate * window.window.innerWidth, currentSnakeYcordinate * window.innerHeight, boardObjectSize.x, boardObjectSize.y);
+            ctx.fillRect(currentSnakeXcordinate * window.innerWidth + boardObjectSize.x / 2,
+                         currentSnakeYcordinate * window.innerHeight + boardObjectSize.y / 2,
+                          boardObjectSize.x, boardObjectSize.y);
 
             for (var rawIndex = 0; rawIndex < currentSnakeObject.SnakeCordinatesList.length; rawIndex++) {
                 var currentSnakeBodyObject = currentSnakeObject.SnakeCordinatesList[rawIndex];
                 var currentSnakeBodyXcordinate = currentSnakeBodyObject.HorizontalPosition;
                 var currentSnakeBodyYcordinate = currentSnakeBodyObject.VerticalPosition;
                 ctx.fillStyle = "#000000";
-                ctx.fillRect(currentSnakeBodyXcordinate * window.innerWidth, currentSnakeBodyYcordinate * window.innerHeight, boardObjectSize.x, boardObjectSize.y);
+                ctx.fillRect(currentSnakeBodyXcordinate * window.innerWidth + boardObjectSize.x / 2,
+                             currentSnakeBodyYcordinate * window.innerHeight + boardObjectSize.y / 2,
+                             boardObjectSize.x, boardObjectSize.y);
             }
         }
 
         var currentCoinObjectXcordinate = coinsInfo.HorizontalPosition;
         var currentCoinObjectYcordinate = coinsInfo.VerticalPosition;
         ctx.fillStyle = "#FFFF00";
-        ctx.fillRect(currentCoinObjectXcordinate * window.innerWidth, currentCoinObjectYcordinate * window.innerHeight, boardObjectSize.x, boardObjectSize.y);
+        ctx.fillRect(currentCoinObjectXcordinate * window.innerWidth + boardObjectSize.x / 2,
+                     currentCoinObjectYcordinate * window.innerHeight + boardObjectSize.y / 2,
+                     boardObjectSize.x, boardObjectSize.y);
     }
 
 
