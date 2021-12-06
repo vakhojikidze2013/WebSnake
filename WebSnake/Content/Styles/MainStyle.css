@@ -4,8 +4,37 @@
     background-color:cadetblue;
 }
 
-.main-canvas{
+.main-canvas {
     height: 100%;
     width: 100%;
+    border: 1px solid #000000;
+    margin-top: 50%;
+    margin-left: 40%;
+}
 
+.input-name {
+    width: 350px;
+    height: 350px;
+    background-color: rgb(65, 65, 65);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+   border-radius: 20%;
+}
+
+#name-input{
+    margin-top: 44%;
+    margin-left: 27%;
+}
+
+#color-input {
+
+    margin-left: 27%;
+}
+
+.login-submit {
+    margin-left: 40%;
 }

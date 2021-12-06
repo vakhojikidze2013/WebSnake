@@ -15,13 +15,16 @@ public static class ConvertClass
 
         foreach (var item in value)
         {
+            var playerObj = PlayerManager.Current.PlayerList.FirstOrDefault(opt => opt.SnakeId == item.SnakeId);
             convertValue = new ConvertSnakeModel
             {
                 HorizontalPosition = item.HorizontalPosition,
                 VerticalPosition = item.VerticalPosition,
                 PastHorizontalPosition = item.PastHorizontalPosition,
                 PastVerticalPosition = item.PastVerticalPosition,
-                SnakeCordinatesList = item.SnakeCordinateList
+                SnakeCordinatesList = item.SnakeCordinateList,
+                NickName = playerObj.InGameName,
+                Color = playerObj.SnakeSwitchedColor
             };
             convertedValues.Add(convertValue);
         }

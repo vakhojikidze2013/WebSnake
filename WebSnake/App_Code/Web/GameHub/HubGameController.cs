@@ -14,13 +14,11 @@ public class HubGameController : Hub
 
     public override Task OnConnected()
     {
-        var snakeId = _gameManager.IdChecker;
+        //var snakeId = _gameManager.IdChecker;
         string currentConnectionId = Context.ConnectionId;
-        _gameManager.AddSnake(snakeId);
-        _playerManager.AddPlayer(_gameManager.IdChecker.ToString(), 
-                                 currentConnectionId, 
-                                 snakeId);
-        _gameManager.IdChecker++;
+        //_gameManager.AddSnake(snakeId);
+        _playerManager.AddPlayer(_gameManager.IdChecker.ToString(), currentConnectionId);
+        //_gameManager.IdChecker++;
         return base.OnConnected();
     }
 
@@ -35,6 +33,26 @@ public class HubGameController : Hub
             _playerManager.RemovePlayer(currentConnectionId);
         }
         return base.OnDisconnected(stopCalled);
+    }
+
+    public async Task StartGame(string playerName, string color)
+    {
+        await Task.Run(() =>
+        {
+            string connectionId = Context.ConnectionId;
+            var snakeId = _gameManager.IdChecker;
+
+            var player = _playerManager.PlayerList.FirstOrDefault(opt => opt.ConnectionId == connectionId);
+            if (!player.IsCreated)
+            {
+                _gameManager.AddSnake(snakeId);
+                player.InGameName = playerName;
+                player.SnakeSwitchedColor = color;
+                player.SnakeId = snakeId;
+                player.IsCreated = true;
+                _gameManager.IdChecker++;
+            }
+        });
     }
 
     public async Task GetSnakeList()

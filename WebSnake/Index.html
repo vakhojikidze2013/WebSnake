@@ -4,13 +4,31 @@
     <meta charset="utf-8" />
     <title>GameSnake</title>
     <link rel="stylesheet" href="Content/Styles/MainStyle.css" />
+    <script src="Content/lib/jquery-1.6.4.min.js"></script>
+    <script src="Content/lib/jquery.signalR-2.4.2.min.js"></script>
 </head>
 <body>
 
+    <div class="input-name">
+        <p id="name-input">
+            <label for="Name">Name:</label>
+            <input type="text" name="in-game-name" id="in-game-name" value="">
+        </p>
+
+        <p id="color-input">
+            <label for="Color">Color:</label>
+            <input type="text" name="in-game-color" id="in-game-color" value="">
+        </p>
+
+
+        <p class="login-submit">
+            <button type="submit" class="login-button">Start Game</button>
+        </p>
+
+
+    </div>
     <canvas id="main-canvas"></canvas>
 
-    <script src="Content/lib/jquery-1.6.4.min.js"></script>
-    <script src="Content/lib/jquery.signalR-2.4.2.min.js"></script>
     <script src="../signalr/hubs"></script>
     <script src="Content/Scripts/Constants.js"></script>
     <script src="Content/Scripts/MainScript.js"></script>

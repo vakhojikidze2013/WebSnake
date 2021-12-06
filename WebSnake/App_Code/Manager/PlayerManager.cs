@@ -38,6 +38,12 @@ public class PlayerManager
 
     public List<Player> PlayerList { get; set; }
 
+    public void AddPlayer(string gameId, string connectionId)
+    {
+        PlayerList.Add(new Player(gameId, connectionId));
+    }
+
+
     public void AddPlayer(string gameId, string connectionId, int snakeId)
     {
         PlayerList.Add(new Player(gameId, connectionId, snakeId));

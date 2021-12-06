@@ -17,6 +17,10 @@ public class ConvertSnakeModel
 
     public double PastVerticalPosition { get; set; }
 
+    public string NickName { get; set; }
+
+    public string Color { get; set; }
+
     public List<SnakeCordinates> SnakeCordinatesList { get; set; }
 
 }
