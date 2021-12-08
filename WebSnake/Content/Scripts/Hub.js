@@ -11,15 +11,18 @@ hubContext.client.informationFromBack = function (snakesInfo, coinInfo) {
     coinsInfo = coinInfo;
 }
 
+hubContext.client.leaderBoard = function (info) {
+    drawLeaderBoard(info);
+}
+
 $.connection.hub.start()
     .done(function () {
-        hubContext.server.tt().then(x => consoleTest(x));
+        setInterval(() => {
+            hubContext.server.ping();
+        }, 500);
     })
 
     .fail(function () {
         console.log('Could not Connect!');
     });
 
-function consoleTest(info) {
-    console.log(info);
-}

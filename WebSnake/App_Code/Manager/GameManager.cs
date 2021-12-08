@@ -65,6 +65,11 @@ public class GameManager
         return GlobalGame.SnakeList.FindIndex(a => a.SnakeId == snakeId);
     }
 
+    public Snake GetSnakeObject(int snakeId)
+    {
+        return GlobalGame.SnakeList.FirstOrDefault(opt => opt.SnakeId == snakeId);
+    }
+
     public void ChangeSnakeMoveDirection(int id, MoveDirection newDirection)
     {
         MoveDirection currentSnakeObjectMoveDirection = GlobalGame.SnakeList[id].SnakeMoveDirection;
@@ -231,14 +236,19 @@ public class GameManager
             VerticalPosition = snakeList[snakeIndex].VerticalPosition
         };
 
-        //Check Coin pos and snake main body pos from Board class
-        if (snakeMainBodyPositions.HorizontalPosition == GlobalGame.Board.CoinOnBoard.HorizontalPosition &&
-            snakeMainBodyPositions.VerticalPosition == GlobalGame.Board.CoinOnBoard.VerticalPosition)
+        for (var index = 0; index < GlobalGame.Board.CoinsOnBoard.Count; index++)
         {
-            //Add snake length
-            snakeList[snakeIndex].AddSnakeNewStartPositions();
-            return true;
+            //Check Coin pos and snake main body pos from Board class
+            if (snakeMainBodyPositions.HorizontalPosition == GlobalGame.Board.CoinsOnBoard[index].HorizontalPosition &&
+                snakeMainBodyPositions.VerticalPosition == GlobalGame.Board.CoinsOnBoard[index].VerticalPosition)
+            {
+                //Add snake length
+                snakeList[snakeIndex].AddSnakeNewStartPositions();
+                GlobalGame.Board.GenerateNewCoin(index);
+                return true;
+            }
         }
+
         return false;
     }
 }

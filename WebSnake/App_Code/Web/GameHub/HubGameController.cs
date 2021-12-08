@@ -8,30 +8,16 @@ using System.Web;
 public class HubGameController : Hub
 {
 
-    private readonly GameManager _gameManager = GameManager.Current;
-
-    private readonly PlayerManager _playerManager = PlayerManager.Current;
-
     public override Task OnConnected()
     {
-        //var snakeId = _gameManager.IdChecker;
         string currentConnectionId = Context.ConnectionId;
-        //_gameManager.AddSnake(snakeId);
-        _playerManager.AddPlayer(_gameManager.IdChecker.ToString(), currentConnectionId);
-        //_gameManager.IdChecker++;
+        PlayerManager.Current.AddPlayer(GameManager.Current.IdChecker.ToString(), currentConnectionId);
+
         return base.OnConnected();
     }
 
     public override Task OnDisconnected(bool stopCalled)
     {
-        string currentConnectionId = Context.ConnectionId;
-        int playerIndex = _playerManager.GetPlayerIndex(currentConnectionId);
-        if (playerIndex >= 0)
-        {
-            int snakeId = _playerManager.PlayerList[playerIndex].SnakeId;
-            _gameManager.DeleteSnake(snakeId);
-            _playerManager.RemovePlayer(currentConnectionId);
-        }
         return base.OnDisconnected(stopCalled);
     }
 
@@ -40,17 +26,24 @@ public class HubGameController : Hub
         await Task.Run(() =>
         {
             string connectionId = Context.ConnectionId;
-            var snakeId = _gameManager.IdChecker;
+            var snakeId = GameManager.Current.IdChecker;
+            Player player = PlayerManager.Current.PlayerList.FirstOrDefault(opt => opt.ConnectionId == connectionId);
 
-            var player = _playerManager.PlayerList.FirstOrDefault(opt => opt.ConnectionId == connectionId);
             if (!player.IsCreated)
             {
-                _gameManager.AddSnake(snakeId);
+                GameManager.Current.AddSnake(snakeId);
+                GameManager.Current.GlobalGame.AddLeaderBoardPlayer(new LeaderBoard
+                {
+                    NickName = playerName,
+                    CollectedCoints = 0,
+                    SnakeId = snakeId
+                });
+                Clients.All.leaderBoard(GameManager.Current.GlobalGame.GetLeaderBoards());
                 player.InGameName = playerName;
                 player.SnakeSwitchedColor = color;
                 player.SnakeId = snakeId;
                 player.IsCreated = true;
-                _gameManager.IdChecker++;
+                GameManager.Current.IdChecker++;
             }
         });
     }
@@ -59,7 +52,7 @@ public class HubGameController : Hub
     {
         await Task.Run(() => 
         {
-            Clients.Caller.message(ConvertClass.ConvertValue(_gameManager.GlobalGame.SnakeList));
+            Clients.Caller.message(ConvertClass.ConvertValue(GameManager.Current.GlobalGame.SnakeList));
         });
     }
 
@@ -67,7 +60,7 @@ public class HubGameController : Hub
     {
         await Task.Run(() =>
         {
-            Clients.Caller.message(_playerManager.PlayerList);
+            Clients.Caller.message(PlayerManager.Current.PlayerList);
         });
     }
 
@@ -99,12 +92,13 @@ public class HubGameController : Hub
             }
 
             string currentConnectionId = Context.ConnectionId;
-            int playerIndex = _playerManager.GetPlayerIndex(currentConnectionId);
-            int snakeId = _playerManager.PlayerList[playerIndex].SnakeId;
-            int snakeIndex = _gameManager.GetSnakeIndex(snakeId);
+            int playerIndex = PlayerManager.Current.GetPlayerIndex(currentConnectionId);
+            int snakeId = PlayerManager.Current.PlayerList[playerIndex].SnakeId;
+            int snakeIndex = GameManager.Current.GetSnakeIndex(snakeId);
+            var currentSnake = GameManager.Current.GetSnakeObject(snakeId);
             if (snakeIndex >= 0)
             {
-                _gameManager.ChangeSnakeMoveDirection(snakeIndex, newSnakeMoveDirection);
+                GameManager.Current.ChangeSnakeMoveDirection(snakeIndex, newSnakeMoveDirection);
             }
         });
     }
@@ -113,12 +107,20 @@ public class HubGameController : Hub
     {
         await Task.Run(() =>
         {
-            _gameManager.MovingSnakeMain();
+            GameManager.Current.MovingSnakeMain();
         });
     }
 
-    public int Tt()
+    public async Task Ping()
     {
-        return 12;
+        await Task.Run(() =>
+        {
+            string currentConnectionId = Context.ConnectionId;
+            Player player = PlayerManager.Current.PlayerList.FirstOrDefault(opt => opt.ConnectionId == currentConnectionId);
+            if (player != null)
+            {
+                player.UpdatePing();
+            }
+        });
     }
 }

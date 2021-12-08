@@ -3,27 +3,13 @@
 <%@ Import Namespace="System.Threading" %>
 <%@ Import Namespace="System.Timers" %>
 
-<script runat="server">
-
-    TimeScheduler TimerMethod = new TimeScheduler();
+<script RunAt="server">
 
     void Application_Start(object sender, EventArgs e)
     {
-        // Code that runs on application startup
+        GameScheduler.StartScheduler();
 
-        //Timer initialization. timer interval is set in miliseconds,
-        System.Timers.Timer timeSchedulerTask = new System.Timers.Timer();
-        timeSchedulerTask.Interval = 50;
-        timeSchedulerTask.Enabled = true;
-        // Add handler for Elapsed event
-        timeSchedulerTask.Elapsed += new System.Timers.ElapsedEventHandler(TimeSchedulerTaskElapsed);
-
-    }
-
-    void TimeSchedulerTaskElapsed(object sender, System.Timers.ElapsedEventArgs e)
-    {
-        //Execute some task!!!
-        TimerMethod.DoWork();
+        PlayerTimeOutScheduler.StartScheduler();
     }
 
     void Application_End(object sender, EventArgs e)

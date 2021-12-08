@@ -60,4 +60,9 @@ public class Player
 
     public bool IsCreated { get; set; } 
 
+    public void UpdatePing()
+    {
+        LastPing = DateTime.Now.Ticks;
+    }
+
 }
