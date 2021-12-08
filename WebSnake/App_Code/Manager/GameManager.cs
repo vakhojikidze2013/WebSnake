@@ -216,7 +216,8 @@ public class GameManager
                 double checkerSnakesHorizontalPosition = Math.Round(Math.Abs(checkingSnakeMainBodyPositions.HorizontalPosition - horizontalOtherSnakePosition), 2);
                 double checkerSnakesVerticalPosition = Math.Round(Math.Abs(checkingSnakeMainBodyPositions.VerticalPosition - verticalOtherSnakePosition), 2);
 
-                if (checkerSnakesVerticalPosition <= 0.02 && checkerSnakesHorizontalPosition <= 0.02) 
+                if (checkerSnakesVerticalPosition <= 0.02 && 
+                    checkerSnakesHorizontalPosition <= 0.02) 
                 {
                     int snakeId = snakeList[snakeIndex].SnakeId;
                     DeleteSnake(snakeId);
