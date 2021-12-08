@@ -238,9 +238,11 @@ public class GameManager
 
         for (var index = 0; index < GlobalGame.Board.CoinsOnBoard.Count; index++)
         {
+            double snakeCoinsCheckerHorizotnal = Math.Round(Math.Abs(snakeMainBodyPositions.HorizontalPosition - GlobalGame.Board.CoinsOnBoard[index].HorizontalPosition), 2);
+            double snakeCoinsCheckerVertical = Math.Round(Math.Abs(snakeMainBodyPositions.VerticalPosition - GlobalGame.Board.CoinsOnBoard[index].VerticalPosition), 2);
             //Check Coin pos and snake main body pos from Board class
-            if (snakeMainBodyPositions.HorizontalPosition == GlobalGame.Board.CoinsOnBoard[index].HorizontalPosition &&
-                snakeMainBodyPositions.VerticalPosition == GlobalGame.Board.CoinsOnBoard[index].VerticalPosition)
+            if (snakeCoinsCheckerVertical <= SettingsGame.CoinContactRadiusVertical && 
+                snakeCoinsCheckerHorizotnal <= SettingsGame.CoinContactRadiusHorizontal)
             {
                 //Add snake length
                 snakeList[snakeIndex].AddSnakeNewStartPositions();
@@ -248,7 +250,6 @@ public class GameManager
                 return true;
             }
         }
-
         return false;
     }
 }

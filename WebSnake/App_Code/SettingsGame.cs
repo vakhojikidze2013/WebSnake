@@ -10,6 +10,10 @@ public static class SettingsGame
 {
     public static int CoinSpawnCount = 4;
 
+    public static double CoinContactRadiusHorizontal = 0.02;
+
+    public static double CoinContactRadiusVertical = 0.02;
+
     public static double FirstCoinHorizontal = 0.15;
 
     public static double FirstCoinVertical = 0.27;
