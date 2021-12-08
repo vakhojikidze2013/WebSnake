@@ -46,6 +46,18 @@ public class GameScheduler
 
         for (int index = 0; index < GameManager.Current.GlobalGame.SnakeList.Count(); index++)
         {
+            var currentSnake = GameManager.Current.GlobalGame.SnakeList[index];
+            //SPEED CHANGER
+            if (currentSnake.SnakeLength == SettingsGame.SnakeSpeedModifyFirstStage)
+            {
+                GameManager.Current.GlobalGame.SnakeList[index].SnakeMoveSpeed = MoveSpeed.Medium;
+            }
+
+            if (currentSnake.SnakeLength == SettingsGame.SnakeSppedModifySecondStage)
+            {
+                GameManager.Current.GlobalGame.SnakeList[index].SnakeMoveSpeed = MoveSpeed.Fast;
+            }
+            //END SPEED CHANGER
             var currentSnakeId = GameManager.Current.GlobalGame.SnakeList[index].SnakeId;
             bool checkDanger = GameManager.Current.CheckDanger(index);
 

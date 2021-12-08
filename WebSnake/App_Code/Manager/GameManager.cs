@@ -247,6 +247,7 @@ public class GameManager
             {
                 //Add snake length
                 snakeList[snakeIndex].AddSnakeNewStartPositions();
+                snakeList[snakeIndex].SnakeLength++;
                 GlobalGame.Board.GenerateNewCoin(index);
                 return true;
             }

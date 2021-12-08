@@ -30,4 +30,8 @@ public static class SettingsGame
 
     public static double FourCoinVertical = 0.90;
 
+    public static int SnakeSpeedModifyFirstStage = 13;
+
+    public static int SnakeSppedModifySecondStage = 28;
+
 }
