@@ -34,4 +34,6 @@ public static class SettingsGame
 
     public static int SnakeSppedModifySecondStage = 28;
 
+    public static int SnakeMoveValueRound = 3;
+
 }
