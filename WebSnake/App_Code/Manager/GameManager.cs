@@ -116,6 +116,7 @@ public class GameManager
                 }
                 MovingSnakeOther(index);
             }
+
             else if (currentSnakeObject.SnakeMoveDirection == MoveDirection.Down)
             {
                 snakeList[index].VerticalPosition += currentSnakeObject.SnakeMoveSpeed;
