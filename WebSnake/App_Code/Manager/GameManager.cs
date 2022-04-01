@@ -148,6 +148,8 @@ public class GameManager
                     snakeList[index].HorizontalPosition = Math.Round(1.0 - snakeList[index].HorizontalPosition, SettingsGame.SnakeMoveValueRound);
                 }
                 MovingSnakeOther(index);
+
+
             }
 
         }
