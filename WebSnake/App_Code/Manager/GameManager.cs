@@ -76,6 +76,7 @@ public class GameManager
         if (newDirection == MoveDirection.Down && currentSnakeObjectMoveDirection == MoveDirection.Up)
         {
             return;
+
         } 
         else if (newDirection == MoveDirection.Up && currentSnakeObjectMoveDirection == MoveDirection.Down)
         {
