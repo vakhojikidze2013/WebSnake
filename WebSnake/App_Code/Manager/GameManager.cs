@@ -249,7 +249,6 @@ public class GameManager
             if (snakeCoinsCheckerVertical <= SettingsGame.CoinContactRadiusVertical && 
                 snakeCoinsCheckerHorizotnal <= SettingsGame.CoinContactRadiusHorizontal)
             {
-                //Add snake length
                 snakeList[snakeIndex].AddSnakeNewStartPositions();
                 snakeList[snakeIndex].SnakeLength++;
                 GlobalGame.Board.GenerateNewCoin(index);
