@@ -37,8 +37,6 @@ public class GameManager
         }
     }
 
-    //public List<Game> GamesList { get; set; }
-
     public int IdChecker { get; set; }
 
     public Game GlobalGame { get; set; }
