@@ -93,7 +93,6 @@ public class GameManager
         GlobalGame.SnakeList[id].SnakeMoveDirection = newDirection;
     }
 
-    //This method makes head of snakes to move
     public void MovingSnakeMain()
     {
         List<Snake> snakeList = GlobalGame.SnakeList;
